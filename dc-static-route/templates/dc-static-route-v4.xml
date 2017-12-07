@@ -1,0 +1,112 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{$DEVICE}</name>
+      <config>
+         <ip xmlns="http://tail-f.com/ned/cisco-nx">
+          <route>
+            <ip-route-interface-list when="{outgoing-interface-type='ethernet'}">
+              <prefix-mask>{dst-prefix-v4}</prefix-mask>
+              <interface>Ethernet{outgoing-interface-id}</interface>
+              <next-hop>{next-hop-ipv4}</next-hop>
+              <vrf>{vrf}</vrf>
+              <name>{route-name}</name>
+              <preference>{metric}</preference>
+            </ip-route-interface-list>
+            <ip-route-interface-list when="{outgoing-interface-type='portchannel'}">
+              <prefix-mask>{dst-prefix-v4}</prefix-mask>
+              <interface>Port-Channel{outgoing-interface-id}</interface>
+              <next-hop>{next-hop-ipv4}</next-hop>
+              <vrf>{vrf}</vrf>
+              <name>{route-name}</name>
+              <preference>{metric}</preference>
+            </ip-route-interface-list>
+            <ip-route-interface-list when="{outgoing-interface-type='vlan'}">
+              <prefix-mask>{dst-prefix-v4}</prefix-mask>
+              <interface>Vlan{outgoing-interface-id}</interface>
+              <next-hop>{next-hop-ipv4}</next-hop>
+              <vrf>{vrf}</vrf>
+              <name>{route-name}</name>
+              <preference>{metric}</preference>
+            </ip-route-interface-list>
+          </route>
+        </ip>
+         <ip xmlns="http://tail-f.com/ned/arista-dcs">
+          <route>
+            <ip-route-list>
+              <prefix>{dst-prefix-v4}</prefix>
+              <gateway>
+                <interface-name>
+                  <Ethernet when="{outgoing-interface-type='ethernet'}">{outgoing-interface-id}</Ethernet>
+                  <Port-Channel when="{outgoing-interface-type='portchannel'}">{outgoing-interface-id}</Port-Channel>
+                  <Vlan when="{outgoing-interface-type='vlan'}">{outgoing-interface-id}</Vlan>
+                </interface-name>
+                <forwarding-address>{next-hop-ipv4}</forwarding-address>
+                <name>{route-name}</name>
+                <admin-distance>{metric}</admin-distance>
+              </gateway>
+            </ip-route-list>
+            <vrf>
+              <name>{vrf}</name>
+              <ip-route-list>
+                <prefix>{dst-prefix-v4}</prefix>
+                <gateway>
+                  <forwarding-address>{next-hop-ipv4}</forwarding-address>
+                </gateway>
+              </ip-route-list>
+            </vrf>
+          </route>
+        </ip>
+        <ip xmlns="urn:ios">
+          <route>
+            <ip-route-interface-list when="{outgoing-interface-type='fastethernet'}">
+              <prefix>{substring-before(dst-prefix-v4,'/')}</prefix>
+              <mask>{substring-after($SUBNET-MASK,'/')}</mask>
+              <interface>FastEthernet{outgoing-interface-id}</interface>
+              <metric>{metric}</metric>
+              <name>{route-name}</name>
+            </ip-route-interface-list>
+            <ip-route-interface-list when="{outgoing-interface-type='gigabitethernet'}">
+              <prefix>{substring-before(dst-prefix-v4,'/')}</prefix>
+              <mask>{substring-after($SUBNET-MASK,'/')}</mask>
+              <interface>GigabitEthernet{outgoing-interface-id}</interface>
+              <metric>{metric}</metric>
+              <name>{route-name}</name>
+            </ip-route-interface-list>
+            <ip-route-interface-list when="{outgoing-interface-type='tengigabitethernet'}">
+              <prefix>{substring-before(dst-prefix-v4,'/')}</prefix>
+              <mask>{substring-after($SUBNET-MASK,'/')}</mask>
+              <interface>TenGigabitEthernet{outgoing-interface-id}</interface>
+              <metric>{metric}</metric>
+              <name>{route-name}</name>
+            </ip-route-interface-list>
+            <ip-route-interface-list when="{outgoing-interface-type='portchannel'}">
+              <prefix>{substring-before(dst-prefix-v4,'/')}</prefix>
+              <mask>{substring-after($SUBNET-MASK,'/')}</mask>
+              <interface>Port-Channel{outgoing-interface-id}</interface>
+              <metric>{metric}</metric>
+              <name>{route-name}</name>
+            </ip-route-interface-list>
+            <ip-route-interface-list when="{outgoing-interface-type='vlan'}">
+              <prefix>{substring-before(dst-prefix-v4,'/')}</prefix>
+              <mask>{substring-after($SUBNET-MASK,'/')}</mask>
+              <interface>Vlan{outgoing-interface-id}</interface>
+              <metric>{metric}</metric>
+              <name>{route-name}</name>
+            </ip-route-interface-list>
+            <vrf>
+              <name>{vrf}</name>
+              <ip-route-forwarding-list>
+                <prefix>{substring-before(dst-prefix-v4,'/')}</prefix>
+                <mask>{substring-after($SUBNET-MASK,'/')}</mask>
+                <forwarding-address>{next-hop-ipv4}</forwarding-address>
+                <metric>{metric}</metric>
+                <name>{route-name}</name>
+              </ip-route-forwarding-list>
+            </vrf>
+          </route>
+        </ip>
+      </config>
+    </device>
+  </devices>
+</config-template>

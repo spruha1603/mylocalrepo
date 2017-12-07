@@ -1,0 +1,85 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{$DEVICE}</name>
+      <config>
+        <ipv6 xmlns="http://tail-f.com/ned/cisco-nx">
+          <route>
+            <ipv6-route-interface-list when="{outgoing-interface-type='ethernet'}">
+              <prefix-mask>{dst-prefix-v6}</prefix-mask>
+              <interface>Ethernet{outgoing-interface-id}</interface>
+              <next-hop>{next-hop-ipv6}</next-hop>
+              <vrf>{vrf}</vrf>
+              <name>{route-name}</name>
+              <preference>{metric}</preference>
+            </ipv6-route-interface-list>
+            <ipv6-route-interface-list when="{outgoing-interface-type='portchannel'}">
+              <prefix-mask>{dst-prefix-v6}</prefix-mask>
+              <interface>Port-Channel{outgoing-interface-id}</interface>
+              <next-hop>{next-hop-ipv6}</next-hop>
+              <vrf>{vrf}</vrf>
+              <name>{route-name}</name>
+              <preference>{metric}</preference>
+            </ipv6-route-interface-list>
+            <ipv6-route-interface-list when="{outgoing-interface-type='vlan'}">
+              <prefix-mask>{dst-prefix-v6}</prefix-mask>
+              <interface>Vlan{outgoing-interface-id}</interface>
+              <next-hop>{next-hop-ipv6}</next-hop>
+              <vrf>{vrf}</vrf>
+              <name>{route-name}</name>
+              <preference>{metric}</preference>
+            </ipv6-route-interface-list>
+          </route>
+        </ipv6>
+        <ipv6 xmlns="http://tail-f.com/ned/arista-dcs">
+          <route>
+            <id>{dst-prefix-v6}</id>
+            <Ethernet when="{outgoing-interface-type='ethernet'}">{outgoing-interface-id}</Ethernet>
+            <Port-Channel when="{outgoing-interface-type='portchannel'}">{outgoing-interface-id}</Port-Channel>
+            <Vlan when="{outgoing-interface-type='vlan'}">{outgoing-interface-id}</Vlan>
+            <next-hop>{next-hop-ipv6}</next-hop>
+          </route>
+        </ipv6>
+        <ipv6 xmlns="urn:ios">
+          <route>
+            <vrf when="{outgoing-interface-type='fastethernet'}">
+              <name>{vrf}</name>
+              <ipv6-route-interface-list>
+                <prefix>{dst-prefix-v6}</prefix>
+                <interface>FastEthernet{outgoing-interface-id}</interface>
+              </ipv6-route-interface-list>
+            </vrf>
+            <vrf when="{outgoing-interface-type='gigabitethernet'}">
+              <name>{vrf}</name>
+              <ipv6-route-interface-list>
+                <prefix>{dst-prefix-v6}</prefix>
+                <interface>GigabitEthernet{outgoing-interface-id}</interface>
+              </ipv6-route-interface-list>
+            </vrf>
+            <vrf when="{outgoing-interface-type='tengigabitethernet'}">
+              <name>{vrf}</name>
+              <ipv6-route-interface-list>
+                <prefix>{dst-prefix-v6}</prefix>
+                <interface>TenGigabitEthernet{outgoing-interface-id}</interface>
+              </ipv6-route-interface-list>
+            </vrf>
+            <vrf when="{outgoing-interface-type='portchannel'}">
+              <name>{vrf}</name>
+              <ipv6-route-interface-list>
+                <prefix>{dst-prefix-v6}</prefix>
+                <interface>Port-Channel{outgoing-interface-id}</interface>
+              </ipv6-route-interface-list>
+            </vrf>
+            <vrf when="{outgoing-interface-type='vlan'}">
+              <name>{vrf}</name>
+              <ipv6-route-interface-list>
+                <prefix>{dst-prefix-v6}</prefix>
+                <interface>Vlan{outgoing-interface-id}</interface>
+              </ipv6-route-interface-list>
+            </vrf>
+          </route>
+        </ipv6>
+      </config>
+    </device>
+  </devices>
+</config-template>

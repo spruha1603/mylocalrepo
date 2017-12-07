@@ -1,0 +1,94 @@
+module dc-static-route {
+    namespace "http://com/comcast/services/dc/staticroute";
+    prefix dc-static-route;
+
+    import ietf-inet-types { prefix inet; }
+    import tailf-ncs { prefix ncs; }
+    import tailf-common { prefix tailf; }
+    import dc-common { prefix dccom; }
+    organization "Comcast";
+
+    contact "Comcast Platform Services";
+
+    description "Comcast data center static route service";
+    
+    
+    grouping ip-route-network {
+        leaf vrf {
+            type string;
+            tailf:info "static route for specific vrf";
+        }
+        leaf outgoing-interface-type {
+            type dccom:interface-type;
+            tailf:info "interface type for out going interface";
+        }
+
+        leaf outgoing-interface-id {
+             when "../outgoing-interface-type != ''";
+             mandatory true;
+            type string;
+            tailf:info "Outgoing Vlan Interface;It can be in format as ex: ethernet-id(1/1),vlan-id(100) or portchannel id(2) ";
+        }
+   
+        leaf metric {
+            tailf:info "preference/metric/admin distance";
+            type uint16 {
+                range 1..254;
+            }
+        }
+        
+        leaf route-name {
+            type string;
+            tailf:info "name is the description for this route";
+        }
+    }
+
+    augment /ncs:services {
+        list dc-static-route {
+            key device;
+
+            tailf:info "Data center static route service";
+            description "Data center static route service";
+
+            uses ncs:service-data;
+            ncs:servicepoint "dc-static-route";
+
+            leaf device {
+                type leafref {
+                    path "/ncs:devices/ncs:device/ncs:name";
+                }
+                tailf:info "device name";
+                description "device name";
+            }
+
+            list ip-route-v4 {
+                key dst-prefix-v4;
+                leaf dst-prefix-v4 {
+                    type tailf:ip-address-and-prefix-length;
+                    tailf:info "Destination Network or IP";
+                }
+		        
+                leaf next-hop-ipv4 {
+                    type inet:ipv4-address;
+                    tailf:info "v4 next hop ip address";
+                }
+                uses ip-route-network;
+            }
+            list ip-route-v6 {
+                key dst-prefix-v6;
+                leaf dst-prefix-v6 {
+                    type tailf:ip-address-and-prefix-length;
+                    tailf:info "Destination Network or IP";
+                }
+
+                leaf next-hop-ipv6 {
+                    type inet:ipv6-address;
+                    tailf:info "v6 next hop ip address";
+                }
+                
+                uses ip-route-network;
+            }
+        }
+    }
+}
+

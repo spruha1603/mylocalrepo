@@ -1,0 +1,12 @@
+<ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
+  <name>dc-static-route</name>
+  <package-version>0.1</package-version>
+  <description>Comcast data center static route Java and template-based resource facing service</description>
+  <ncs-min-version>3.0</ncs-min-version>
+  <component>
+    <name>Data center Static Route service</name>
+    <callback>
+      <java-class-name>com.comcast.services.dc.staticroute.dcStaticRouteRFS</java-class-name>
+    </callback>
+  </component>
+</ncs-package>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+  <classpathentry
+     kind="con"
+     path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry
+     kind="con"
+     path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+  <classpathentry kind="output" path="bin"/>
+  <classpathentry kind="src"
+     path="./src/java/src"/>
+  <classpathentry
+       kind="lib"
+       path="/root/comcast_dc/external/nso/java/jar/ncs.jar"
+       sourcepath="/root/comcast_dc/external/nso/java/jar/ncs-src.jar"/>
+  <classpathentry
+    kind="lib"
+    path="/root/comcast_dc/external/nso/java/jar/conf-api.jar"
+    sourcepath="/root/comcast_dc/external/nso/java/jar/conf-api-src.jar"/>
+
+  <classpathentry
+     kind="lib"
+     path="/root/comcast_dc/external/nso/java/jar/snmp4j.jar"/>
+  <classpathentry
+     kind="lib"
+     path="/root/comcast_dc/external/nso/java/jar/log4j-1.2.16.jar"/>
+  <classpathentry
+     kind="lib"
+     path="/root/comcast_dc/external/nso/java/jar/ganymed-ssh2.jar"/>
+  <classpathentry
+     kind="lib"
+     path="/root/comcast_dc/external/nso/java/jar/log4j.jar"/>
+  <classpathentry
+     kind="lib"
+     path="/root/comcast_dc/external/nso/java/jar/tailf-ganymed-ssh2-262-p5.jar"/>
+  <classpathentry
+     kind="lib"
+     path="/root/comcast_dc/external/nso/java/jar/snmp4j-1.11.5.jar"/>
+</classpath>
